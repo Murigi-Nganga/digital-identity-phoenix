@@ -1,6 +1,6 @@
 import os
 import uuid
-from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient, version
+from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 
 def upload(container_name, file_path, file_name):
     connect_str = 'DefaultEndpointsProtocol=https;AccountName=bioauthdata;AccountKey=vq7bM1uKYcyvulbif+wlm0gYmSXvaR184deCBE4WNX5ILuqxmQebPujz9CSZRNbdESMr+QfgTLt/gc6GyfoJXw==;EndpointSuffix=core.windows.net'

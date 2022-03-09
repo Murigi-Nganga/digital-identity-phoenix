@@ -32,6 +32,7 @@ def enroll(file_path):
 	}
 
 	data = open(file_path, 'rb').read()
+ 
 	response = requests.post('%s/speaker/verification/v2.0/text-independent/profiles/%s/enrollments'%(ENDPOINT, profile_id), headers=headers, data=data)
 
 	response = response.json()

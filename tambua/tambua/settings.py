@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-kgpkwkvwe6h@4zy5b-(1e(q(!-8vl$q=@eyrvnf=kmo$fypy@i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', 'tambua.azurewebsites.net']
 
 
 # Application definition
