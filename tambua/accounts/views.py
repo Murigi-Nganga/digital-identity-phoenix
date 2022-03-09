@@ -101,10 +101,3 @@ def verify(request):
     }
     
     return render(request, 'verify.html', verify_context)
-
-def records(request):
-    if not request.user.is_authenticated:
-        return redirect(to='login')
-    customer_data =Customers.objects.all()
-    print(customer_data)
-    return render(request, 'records.html')

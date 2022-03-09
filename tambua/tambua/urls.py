@@ -24,5 +24,4 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('enroll/', views.enroll, name='enroll'),
     path('verify/', views.verify, name='verify'),
-    path('records/', views.records, name='records'),
 ]
