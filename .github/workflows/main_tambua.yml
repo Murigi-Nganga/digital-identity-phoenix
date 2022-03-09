@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'tambua'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C3E2D7F5367241EFA1564EEBB85D5A50 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_656199D77206457B83B2FBD3DE7BCF67 }}
