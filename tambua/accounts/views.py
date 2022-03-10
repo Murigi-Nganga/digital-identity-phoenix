@@ -10,8 +10,8 @@ from .biometrics.fingerprint_auth import verify as verify_fingerprint
 from .biometrics.voice_auth import verify as verify_voice
 from .biometrics.signature_auth import verify as verify_signature
 from os.path import dirname
-from django.contrib import messages
 
+# Azure storage blob containers
 container_names = ['photos', 'recordings', 'signatures', 'fingerprints']
 
 check_path = dirname(dirname( __file__ ))
@@ -22,6 +22,7 @@ def enroll(request):
     
     cutomer_files_urls = []
     new_image_names = []
+    messages = []
     
     if request.method == 'POST':
         m=0
@@ -51,18 +52,19 @@ def enroll(request):
             customer_signature =  new_image_names[2],
             customer_fingerprint = new_image_names[3],
         ):
-            messages.success(request, f'Customer Enrolled Successfully!\
+            messages.append(f'Customer Enrolled Successfully!\
                              Customer\'s ID Number is {eq_customer_id}')
         else:
-            messages.warning(request, f'Something went wrong. Please retry the enrollment!')
+            messages.append(f'Something went wrong. Please retry the enrollment!')
         
-    return render(request, 'enroll.html')
+    return render(request, 'enroll.html', {'messages': messages})
 
 def verify(request):
     if not request.user.is_authenticated:
         return redirect(to='login')
     
     customer_verify_urls = []
+    messages = []
     
     if request.method == 'POST':
         fs = FileSystemStorage()
@@ -97,8 +99,10 @@ def verify(request):
         ]
             
         if has_passed == [True, True, True, True]:
-            messages.success(request, 'Verification successful. A match was found!')
+            messages.append('Verification successful. A match was found!')
+            messages.append(f'Name: {customer_data.first_name} {customer_data.last_name}')
         else:
-            messages.warning(request, 'Verification was unsuccessful!')
+            messages.append('Verification was unsuccessful!')
+            messages.append('No match was found!')
             
-    return render(request, 'verify.html')
+    return render(request, 'verify.html', {'messages': messages})
