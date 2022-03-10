@@ -59,7 +59,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'tambua.urls'
 
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'enroll'
 
 LOGOUT_REDIRECT_URL = 'home'
 

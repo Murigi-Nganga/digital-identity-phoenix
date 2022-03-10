@@ -10,16 +10,19 @@ from .biometrics.fingerprint_auth import verify as verify_fingerprint
 from .biometrics.voice_auth import verify as verify_voice
 from .biometrics.signature_auth import verify as verify_signature
 from os.path import dirname
+from django.contrib import messages
 
 container_names = ['photos', 'recordings', 'signatures', 'fingerprints']
 
 check_path = dirname(dirname( __file__ ))
 
 def enroll(request):
-    # if not request.user.is_authenticated:
-    #     return redirect(to='login')
+    if not request.user.is_authenticated:
+        return redirect(to='login')
+    
     cutomer_files_urls = []
     new_image_names = []
+    
     if request.method == 'POST':
         m=0
         fs = FileSystemStorage()
@@ -36,28 +39,30 @@ def enroll(request):
                 upload(container_names[m], str(check_path + cutomer_files_urls[m]) , str(image_name))
                 
             m += 1
+            
+            eq_customer_id = str(uuid4())
         
-        Customers.objects.create(
-            customer_id = str(uuid4()),
+        if Customers.objects.create(
+            customer_id = eq_customer_id,
             first_name = request.POST.get('first_name'),
             last_name = request.POST.get('last_name'),
             customer_photo = new_image_names[0],
             customer_recording = enroll_voice(check_path + '\\' + cutomer_files_urls[1])[1],
             customer_signature =  new_image_names[2],
             customer_fingerprint = new_image_names[3],
-            # enrollment_date = models.DateField(auto_now=True)
-        )
-        
-        # Add a success message
+        ):
+            messages.success(request, f'Customer Enrolled Successfully!\
+                             Customer\'s ID Number is {eq_customer_id}')
+        else:
+            messages.warning(request, f'Something went wrong. Please retry the enrollment!')
         
     return render(request, 'enroll.html')
 
 def verify(request):
-    customer_verify_urls = []
-    has_passsed = []
-    
     if not request.user.is_authenticated:
         return redirect(to='login')
+    
+    customer_verify_urls = []
     
     if request.method == 'POST':
         fs = FileSystemStorage()
@@ -66,19 +71,16 @@ def verify(request):
             filename = fs.save(myfile.name, myfile)
             uploaded_file_url = fs.url(filename)
             customer_verify_urls.append(str(check_path + uploaded_file_url))
-    
-    if request.method == 'POST':
+            
         customer_data = Customers.objects.get(pk=request.POST.get('customer_id'))
-        print(customer_data)
+        if not customer_data:
+            messages.warning(request, f"The Customer with the ID {request.POST.get('customer_id')} does not exist!")
+        # print(customer_data)
+        
         customer_photo = customer_data.customer_photo
         customer_recording = customer_data.customer_recording
         customer_fingerprint = customer_data.customer_fingerprint
         customer_signature = customer_data.customer_signature
-        
-        # customer_photo = Customers.objects.get(request.POST.get('customer_photo'))
-        # customer_recording = Customers.objects.get(request.POST.get('customer_recording'))
-        # customer_fingerprint = Customers.objects.get(request.POST.get('customer_fingerprint'))
-        # customer_signature = Customers.objects.get(request.POST.get('customer_signature'))
         
         has_passed = [
             # face_verification
@@ -94,10 +96,9 @@ def verify(request):
             verify_fingerprint(customer_fingerprint, customer_verify_urls[3])[0]
         ]
             
-        print(has_passed, end="\n"*30)
-        
-    verify_context = {
-        
-    }
-    
-    return render(request, 'verify.html', verify_context)
+        if has_passed == [True, True, True, True]:
+            messages.success(request, 'Verification successful. A match was found!')
+        else:
+            messages.warning(request, 'Verification was unsuccessful!')
+            
+    return render(request, 'verify.html')
