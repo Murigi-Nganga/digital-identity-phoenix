@@ -24,3 +24,5 @@ mysqlclient==2.1.0
 pandas==1.2.5
 tzlocal==3.0
 uuid==1.30
+
+whitenoise
