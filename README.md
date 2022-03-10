@@ -29,7 +29,7 @@ Start the Django server
   python manage.py runserver
 ```
 
-#### A strong internet connection is higly recommended
+#### A strong internet connection is highly recommended
 
 ## Project Screenshots
 
