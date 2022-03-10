@@ -29,6 +29,8 @@ Start the Django server
   python manage.py runserver
 ```
 
+#### A strong internet connection is higly recommended
+
 ## Project Screenshots
 
 ![Landing Page](screenshots/landing.png "Landing Page")
