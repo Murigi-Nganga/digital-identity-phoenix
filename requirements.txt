@@ -1,4 +1,4 @@
-Django==3.2.4
+Django==3.2.12
 matplotlib==3.4.3
 msrest==0.6.21
 opencv_python==4.5.3.56
