@@ -14,7 +14,7 @@ Clone the project
 Install dependencies
 
 ```bash
-  pip requirements -r requirements.txt
+  pip install -r requirements.txt
 ```
 
 Go to the project directory
