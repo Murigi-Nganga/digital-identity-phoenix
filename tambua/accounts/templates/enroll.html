@@ -18,12 +18,12 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active"></li>
-      <li class="nav-item active"></li>
+      <li class="nav-item"></li>
+      <li class="nav-item"></li>
     </ul>
 
-    <a class="nav-link my-2 my-sm-0" href="{% url 'enroll' %}"
-      ><button class="btn btn-outline-secondary my-2 my-sm-0">Enroll</button></a
+    <a class="nav-link my-2 my-sm-0 active" href="{% url 'enroll' %}"
+      ><button class="btn btn-outline-primary my-2 my-sm-0">Enroll</button></a
     >
     <a class="nav-link my-2 my-sm-0" href="{% url 'verify' %}"
       ><button class="btn btn-outline-secondary my-2 my-sm-0">Verify</button></a
@@ -36,14 +36,14 @@
   </div>
 </nav>
 
-<div id="messages" style="color: white; background: rgb(11, 46, 70); font-size: 22; text-align: center">
+<div id="messages" style="color: white; background: rgb(11, 46, 70); font-size: 24; text-align: center; margin-top: 20px; border-radius: 12px;">
     {% for msg in messages %}
         <p> {{msg}} </p>
     {% endfor %}
 </div>
 
 <br />
-<h3>Enter Customer Details and Upload Files</h3>
+<h3>Enter Customer Enrollment Details and Upload Files</h3>
 <hr />
 <form method="POST" enctype="multipart/form-data" autocomplete="off">
   {% csrf_token %}
@@ -84,7 +84,8 @@
         class="form-control"
         id="customer_photo"
         name="customer_photo"
-        placeholder="Upload Customer Photo"
+        placeholder="Upload Customer Face Photo"
+        accept="image/png,image/jpg,image/jpeg,image/tif"
       />
     </div>
   </div>
@@ -100,6 +101,7 @@
         id="customer_recording"
         name="customer_recording"
         placeholder="Upload Customer Recording"
+        accept=".wav"
       />
     </div>
   </div>
@@ -115,6 +117,7 @@
         id="customer_signature"
         name="customer_signature"
         placeholder="Upload Customer Signature Photo"
+        accept="image/png,image/jpg,image/jpeg,image/tif"
       />
     </div>
   </div>
@@ -129,13 +132,14 @@
         class="form-control"
         id="customer_fingerprint"
         name="customer_fingerprint"
-        placeholder="Upload Customer Signature"
+        placeholder="Upload Customer Fingerprint Photo"
+        accept="image/png,image/jpg,image/jpeg,image/tif"
       />
     </div>
   </div>
   <div class="form-group row">
     <div class="col-sm-10">
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary">Enroll</button>
     </div>
   </div>
 </form>

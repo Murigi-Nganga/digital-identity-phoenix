@@ -73,10 +73,12 @@ def verify(request):
             filename = fs.save(myfile.name, myfile)
             uploaded_file_url = fs.url(filename)
             customer_verify_urls.append(str(check_path + uploaded_file_url))
-            
-        customer_data = Customers.objects.get(pk=request.POST.get('customer_id'))
-        if not customer_data:
-            messages.warning(request, f"The Customer with the ID {request.POST.get('customer_id')} does not exist!")
+         
+        try:
+            customer_data = Customers.objects.get(pk=request.POST.get('customer_id'))
+        except:
+            messages.append(f"The Customer with the ID {request.POST.get('customer_id')} does not exist!")
+            return render(request, 'verify.html', {'messages': messages})
         # print(customer_data)
         
         customer_photo = customer_data.customer_photo
