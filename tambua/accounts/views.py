@@ -54,6 +54,7 @@ def enroll(request):
         ):
             messages.append(f'Customer Enrolled Successfully!\
                              Customer\'s ID Number is {eq_customer_id}')
+            messages.append('Be sure to record this this ID will be required during verification')
         else:
             messages.append(f'Something went wrong. Please retry the enrollment!')
         
